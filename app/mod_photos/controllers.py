@@ -3,14 +3,15 @@ from werkzeug import check_password_hash, generate_password_hash
 from app import app
 from app.data import db
 
-from app.mod_auth.forms import LoginForm, RegisterForm
-from app.mod_auth.models import User
-from flask.ext.login import login_user, logout_user, login_required, current_user
+from app.mod_photos.models import Photo
 
 mod_photos = Blueprint('photos',__name__,url_prefix='/photos')
 
 
-#@mod_photos('/photos/',methods=['POST'])
+@mod_photos('/photos/',methods=['POST'])
+def photos():
+	app.logger.debug("Applying post photo...")
+	
 
 '''
 def check_password(pass1 , pass2):
