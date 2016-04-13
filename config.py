@@ -34,4 +34,10 @@ MAIL_PASSWORD=None
 #administrator list
 ADMINS=['you@example.com']
 
+#Configuration for uploader files
+UPLOAD_FOLDER='data/'
+MAX_CONTENT_LENGTH= 50 * 1024 * 1024
+
+
+
 

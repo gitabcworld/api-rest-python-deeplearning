@@ -1,3 +1,4 @@
+data/
 keys.sh
 *.pem
 #Discard .swp file from vim

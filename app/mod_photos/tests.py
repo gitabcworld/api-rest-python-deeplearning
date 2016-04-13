@@ -14,6 +14,9 @@ class TestModelPhoto(BaseTestCase):
 
 class TestPhotosViews(BaseTestCase):
     def test_post_photo(self):
+	
+	app.logger.debug("Executing test photo")
         with self.app.open_resource("test_resources/photo.jpg") as fp:
             with self.client:
-                response = self.client.post(url_for('/photos/photos'),data={'file':fp});
+                response = self.client.post("/photos/v1.0/photos",data={'file':fp});
+		app.logger.debug(response)

@@ -28,12 +28,18 @@ db.app = app
 db.create_all()
 
 
+#Load modules
 from app.mod_auth.controllers import mod_auth as auth_module
 from app.mod_winners.controllers import mod_winner as winner_module
+from app.mod_photos.controllers import mod_photos as photos_module
 
 app.register_blueprint(auth_module)
 app.register_blueprint(winner_module)
-#Add more module if ti is necessary
+app.register_blueprint(photos_module)
+
+
+#Login functions
+#Add more module if it is necessary
 from app.mod_auth.models import User
 
 @login_manager.user_loader
