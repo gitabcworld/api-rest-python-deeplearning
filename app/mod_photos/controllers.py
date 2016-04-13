@@ -9,8 +9,6 @@ import os
 
 mod_photos = Blueprint('photos',__name__,url_prefix='/photos/v1.0')
 
-
-
 @mod_photos.route('/photos',methods=['POST'])
 def photos():
 	app.logger.debug("Applying post photo...")
@@ -27,6 +25,7 @@ def photos():
             resp = jsonify()
         else:
             resp = jsonify(data)
+        resp.content_type='application/json'
         resp.status_code == 200
         return resp
 
