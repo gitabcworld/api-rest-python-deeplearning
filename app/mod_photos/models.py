@@ -8,15 +8,17 @@ class Base(db.Model):
 
 class Photo(Base,CRUDMixin):
     __tablename__='photo'
-    name = db.Column(db.String(128), nullable=False)
+    uuid = db.Column(db.String(128), nullable=False)
+    filepath = db.Column(db.String(500), nullable=False)
     
-    def __init__(self,name):
-	self.name = name
+    def __init__(self,uuid,filepath):
+	self.uuid = uuid
+	self.filepath = filepath
 
     def get_id(self):
 	return self.id
 
     def __repr__(self):
-        return '<photo %r>' % (self.name)
+	return '<photo uuid=%r filepath=%r>' % (self.name,self.uuid,self.filepath)
         
 
