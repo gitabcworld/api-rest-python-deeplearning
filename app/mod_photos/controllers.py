@@ -4,6 +4,8 @@ from app import app
 from app.data import db
 from app.mod_photos.models import Photo
 
+from factory_responses import FactoryResponse
+
 import uuid
 import os
 
@@ -17,16 +19,14 @@ def allowed_file(filename):
 
 @mod_photos.route('/photos',methods=['POST'])
 def photos():
+	responses = FactoryResponse()
 	app.logger.debug("Applying post photo...")
 
         data = None
         if request.method == 'POST':
 		file = request.files['file']
 		if file and not allowed_file(file.filename):
-            	    resp = jsonify()
-        	    resp.content_type='application/json'
-    		    resp.status_code = 202
-		    return resp
+		    return responses.new202()
 
 		extension = os.path.splitext(file.filename)[1]
 		f_name=str(uuid.uuid4()) + extension
@@ -37,13 +37,11 @@ def photos():
 		file.save(filepath)
                 data = {'filename':f_name}
         #TODO refactor to set up necessary methods to create responses
-        if data == None:
-            resp = jsonify()
-            resp.status_code = 200
-        else:
-            resp = jsonify(data)
-	    resp.status_code = 201
-	#TODO add diferent type of constructors
-        resp.content_type='application/json'
+        #TODO is it necessary to return 200 command
+	resp = None
+	if data == None:
+        	resp = responses.new200()
+	else:
+		resp = responses.new201(data)
         return resp
 

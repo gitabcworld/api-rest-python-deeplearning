@@ -5,6 +5,8 @@ from app.test_base import BaseTestCase
 from app import app
 
 from .models import Photo
+from factory_responses import FactoryResponse
+
 
 
 class TestModelPhoto(BaseTestCase):
@@ -12,6 +14,29 @@ class TestModelPhoto(BaseTestCase):
         photo = Photo('1','/test/photo.png')
         self.assertTrue(photo.uuid,'1')
         self.assertTrue(photo.filepath,'/test/photo.png')
+class TestFactoryResponses(BaseTestCase):
+	responses = None
+
+	@classmethod
+	def setUpClass(cls):
+		cls.responses = FactoryResponse()
+	@classmethod
+	def tearDownClass(cls):
+		cls.responses = None
+	def test_200_correct(self):
+		#TODO add respnse
+		resp=self.responses.new200()
+		self.assertTrue(resp.status_code==200)
+		self.assertTrue(resp.content_type=="application/json")
+	def test_201_correct(self):
+		empty_data = {}
+		resp=self.responses.new201(empty_data)
+		self.assertTrue(resp.status_code==201)
+		self.assertTrue(resp.content_type=="application/json")
+	def test_202_correct(self):
+		resp=self.responses.new202()
+		self.assertTrue(resp.status_code==202)
+		self.assertTrue(resp.content_type=="application/json")
 
 class TestPhotosViews(BaseTestCase):
     def test_post_photo_correct(self):
@@ -32,4 +57,4 @@ class TestPhotosViews(BaseTestCase):
 		#self.app.logger.debug(response.json)
 		#TODO add assert for correct response
 		self.assertTrue(response.status_code == 202)
-	    
+
