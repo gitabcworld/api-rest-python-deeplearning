@@ -1,4 +1,4 @@
-from flask import url_for
+from flask import url_for, jsonify, json
 from flask.ext.login import current_user
 
 from app.test_base import BaseTestCase
@@ -6,7 +6,7 @@ from app import app
 
 from .models import Photo
 from factory_responses import FactoryResponse
-
+from app.data import db
 
 
 class TestModelPhoto(BaseTestCase):
@@ -16,13 +16,13 @@ class TestModelPhoto(BaseTestCase):
         self.assertTrue(photo.filepath,'/test/photo.png')
 class TestFactoryResponses(BaseTestCase):
 	responses = None
-
 	@classmethod
 	def setUpClass(cls):
 		cls.responses = FactoryResponse()
 	@classmethod
 	def tearDownClass(cls):
 		cls.responses = None
+
 	def test_200_correct(self):
 		#TODO add respnse
 		resp=self.responses.new200()
@@ -40,7 +40,6 @@ class TestFactoryResponses(BaseTestCase):
 
 class TestPhotosViews(BaseTestCase):
     def test_post_photo_correct(self):
-	
         with self.app.open_resource("test_resources/photo.jpg") as fp:
             with self.client:
                 response = self.client.post("/photos/v1.0/photos",data={'file':fp});
@@ -49,7 +48,8 @@ class TestPhotosViews(BaseTestCase):
 		self.app.logger.debug(response.json)
 		#TODO add assert for correct response
 		self.assertTrue(response.status_code == 201)
-    def post_photo_not_allowed_file(self):
+
+    def test_post_photo_not_allowed_file(self):
         with self.app.open_resource("test_resources/photo.txt") as fp:
              with self.client:
                 response = self.client.post("/photos/v1.0/photos",data={'file':fp});
@@ -57,4 +57,15 @@ class TestPhotosViews(BaseTestCase):
 		#self.app.logger.debug(response.json)
 		#TODO add assert for correct response
 		self.assertTrue(response.status_code == 202)
+
+    def test_get_photo_correct(self):
+	#fake information
+	data={"uuid":"1","filepath":"test1.jpg"}
+	Photo.create(**data)	
+        
+	#fake data to test get resource
+	with self.app.open_resource("test_resources/photo.jpg") as fp:
+            with self.client:
+		response = self.client.get("/photos/v1.0/photos")
+		app.logger.debug(response.json['data'][0]['uuid'])
 

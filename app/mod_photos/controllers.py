@@ -13,13 +13,15 @@ ALLOWED_EXTENSIONS=set(['jpg','jpeg','bmp','png'])
 
 mod_photos = Blueprint('photos',__name__,url_prefix='/photos/v1.0')
 
+
+responses = FactoryResponse()
+
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
 
 
 @mod_photos.route('/photos',methods=['POST'])
-def photos():
-	responses = FactoryResponse()
+def photos_post():
 	app.logger.debug("Applying post photo...")
 
         data = None
@@ -44,4 +46,12 @@ def photos():
 	else:
 		resp = responses.new201(data)
         return resp
+
+@mod_photos.route('/photos',methods=['GET'])
+def photos_get():
+	app.logger.debug("Applying get photos...")
+	photos = Photo.query.all()
+	resp = jsonify({'data':
+		[photo.serialize() for photo in photos]})
+	return resp
 
