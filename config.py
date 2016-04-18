@@ -38,6 +38,6 @@ ADMINS=['you@example.com']
 UPLOAD_FOLDER='data/'
 MAX_CONTENT_LENGTH= 50 * 1024 * 1024
 
-
+PER_PAGE=100
 
 

@@ -51,6 +51,17 @@ def photos_post():
 def photos_get():
 	app.logger.debug("Applying get photos...")
 	photos = Photo.query.all()
+	page = request.args.get('page',1,type=int)
+	pagination=Photo.query.paginate(page,per_page=app.config['PER_PAGE'],
+                error_out=False)
+        photos = pagination.items
+        prev = None
+        if pagination.has_prev:
+            prev=url_for('',page=page-1,_external=True)
+        next = None
+        if pagination.has_next:
+            next = url_for('',page=page+1,_external=True)
+
 	resp = jsonify({'data':
 		[photo.serialize() for photo in photos]})
 	return resp
