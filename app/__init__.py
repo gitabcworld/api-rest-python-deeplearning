@@ -30,8 +30,10 @@ db.create_all()
 
 #Load modules
 from app.mod_photos.controllers import mod_photos as photos_module
+from app.mod_main.controllers import mod_main as main_module
 
 app.register_blueprint(photos_module)
+app.register_blueprint(main_module)
 
 
 
