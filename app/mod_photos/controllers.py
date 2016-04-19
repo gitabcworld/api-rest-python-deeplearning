@@ -21,7 +21,7 @@ def allowed_file(filename):
 
 
 @mod_photos.route('/photos',methods=['POST'])
-def photos_post():
+def post_photos():
 	app.logger.debug("Applying post photo...")
 
         data = None
@@ -48,7 +48,7 @@ def photos_post():
         return resp
 
 @mod_photos.route('/photos',methods=['GET'])
-def photos_get():
+def get_photos():
 	app.logger.debug("Applying get photos...")
 	photos = Photo.query.all()
 	page = request.args.get('page',1,type=int)
@@ -57,12 +57,13 @@ def photos_get():
         photos = pagination.items
         prev = None
         if pagination.has_prev:
-            prev=url_for('',page=page-1,_external=True)
+            prev=url_for('photos.get_photos',page=page-1,_external=True)
         next = None
         if pagination.has_next:
-            next = url_for('',page=page+1,_external=True)
+            next = url_for('photos.get_photos',page=page+1,_external=True)
 
-	resp = jsonify({'data':
-		[photo.serialize() for photo in photos]})
+	resp = jsonify({'data' :[photo.serialize() for photo in photos],
+            'pagination':{'prev': prev,'next': next,'count':pagination.total}
+            })
 	return resp
 

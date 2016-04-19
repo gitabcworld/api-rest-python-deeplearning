@@ -8,6 +8,8 @@ from .models import Photo
 from factory_responses import FactoryResponse
 from app.data import db
 
+def create_photo(number_users):
+    return [Photo.create(**{'uuid': str(index+1), 'filepath': 'test'+str(index+1)+'.jpg'}) for index in range(0,number_users) ]
 
 class TestModelPhoto(BaseTestCase):
     def test_new_photo(self):
@@ -67,5 +69,24 @@ class TestPhotosViews(BaseTestCase):
 	with self.app.open_resource("test_resources/photo.jpg") as fp:
             with self.client:
 		response = self.client.get("/photos/v1.0/photos")
+		app.logger.debug(response.json)
 		app.logger.debug(response.json['data'][0]['uuid'])
+
+    
+    def test_get_photo_correct(self):
+	#fake information
+    	create_photo(1)   	
+	#fake data to test get resource
+        with self.client:
+		response = self.client.get("/photos/v1.0/photos")
+		app.logger.debug(response.json)
+		app.logger.debug(response.json['data'][0]['uuid'])
+
+    def test_get_photos_pagination(self):
+	create_photo(102)
+        with self.client:
+		response = self.client.get("/photos/v1.0/photos")
+		app.logger.debug(response.json)
+		app.logger.debug(response.json['data'][0]['uuid'])
+
 
