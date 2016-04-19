@@ -47,6 +47,11 @@ def post_photos():
 		resp = responses.new201(data)
         return resp
 
+@mod_photos.route('/photos/<int:id>',methods=['GET'])
+def get_photos_one(id):
+    photo =Photo.query.get_or_404(id)
+    return jsonify(photo.serialize_all())
+
 @mod_photos.route('/photos',methods=['GET'])
 def get_photos():
 	app.logger.debug("Applying get photos...")

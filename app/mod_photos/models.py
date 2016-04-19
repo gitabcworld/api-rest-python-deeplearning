@@ -21,6 +21,8 @@ class Photo(Base,CRUDMixin):
 
     def serialize(self):
 	return {'uuid':self.uuid}
+    def serialize_all(self):
+	return {'uuid':self.uuid, 'filepath': self.filepath}
     def __repr__(self):
 	return '<photo uuid=%r filepath=%r>' % (self.uuid,self.filepath)
         

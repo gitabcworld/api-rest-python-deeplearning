@@ -62,31 +62,31 @@ class TestPhotosViews(BaseTestCase):
 
     def test_get_photo_correct(self):
 	#fake information
-	data={"uuid":"1","filepath":"test1.jpg"}
-	Photo.create(**data)	
+    	create_photo(1)   	
         
 	#fake data to test get resource
 	with self.app.open_resource("test_resources/photo.jpg") as fp:
             with self.client:
 		response = self.client.get("/photos/v1.0/photos")
 		app.logger.debug(response.json)
-		app.logger.debug(response.json['data'][0]['uuid'])
+		self.assertTrue(response.json['data'][0]['uuid']=='1')
 
     
-    def test_get_photo_correct(self):
+    def test_get_one_photo_correct(self):
 	#fake information
     	create_photo(1)   	
 	#fake data to test get resource
         with self.client:
-		response = self.client.get("/photos/v1.0/photos")
+		response = self.client.get("/photos/v1.0/photos/1")
 		app.logger.debug(response.json)
-		app.logger.debug(response.json['data'][0]['uuid'])
+		self.assertTrue(response.json['uuid']=='1')
 
-    def test_get_photos_pagination(self):
+
+    def test_get_photos_pagination_correct(self):
 	create_photo(102)
         with self.client:
 		response = self.client.get("/photos/v1.0/photos")
 		app.logger.debug(response.json)
-		app.logger.debug(response.json['data'][0]['uuid'])
+		self.assertTrue(response.json['data'][0]['uuid']=='1')
 
 
