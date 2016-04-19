@@ -11,14 +11,5 @@ db.create_all()
 
 @celery.task
 def newwinner():
-    #userId = User.select_random_id(User.__tablename__)
-    num_users = User.query.count()
-    print("Number of users: "+str(num_users))
-    if num_users == 0:
-	    return -1
-    import random
-    rand = random.randrange(0,num_users)
-    user = User.query.all()[rand]
-    Winner.create(**{'name': user.name})
-    print("User winner name="+str(user.name))
+    pass
     
