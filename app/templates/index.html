@@ -16,12 +16,41 @@
 
 	<script src="/static/lib/jquery/jquery.min.js"></script>
 	<script src="/static/lib/bootstrap/bootstrap.min.js"></script>
+
+	 <!--  <script type="text/javascript" src="angular.min.js"></script>-->
+
+	    <script type="text/javascript">
+		angular.module('myApp', []).
+
+		controller('UploadCtrl', ['$scope', function (scope) {
+		    scope.image = "";
+		}]).
+
+		directive('myUpload', [function () {
+		    return {
+		        restrict: 'A',
+		        link: function (scope, elem, attrs) {
+		            var reader = new FileReader();
+		            reader.onload = function (e) {
+		                scope.image = e.target.result;
+		                scope.$apply();
+		            }
+
+		            elem.on('change', function() {
+		                reader.readAsDataURL(elem[0].files[0]);
+		            });
+		        }
+		    };
+		}]);
+	    </script>
+
 </head>
 <body>
 	<div id="header" class="header navbar navbar-static-top">
 		<div class="navbar-inner">
 			<div class="container">
-				<!--<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<!--
+				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 				</button>
 				<a class="brand" href="/">AngularFlask</a> 
 				<div class="nav-collapse collapse">
@@ -35,9 +64,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="container page">
+
+
+	<div class="container page" ng-app="myApp">
 		<div id="content" class="container main" ng-view>
-			Hello world
+		    <div ng-controller="UploadCtrl">
+			<img ng-if="image" src="{{image}}" alt="">
+			<form action="">
+			    <input my-upload type="file" name="upload">
+			</form>
+		    </div>
+
+
 		</div>
 
 		<hr>

@@ -10,5 +10,14 @@
 </div>
 
 <div>
+	<div ng-app="myApp">
+		<form name="saveTemplateData" action="#" ng-controller="FormCtrl">
+			First name:    <br/><input type="text" name="form.firstname">    <br/><br/>
+			Email Address: <br/><input type="text" ng-model="form.emailaddress"> <br/><br/>
+			<textarea rows="3" cols="25">Describe your reason for submitting this form ... </textarea> <br/><br/>
+			<input type="radio" ng-model="form.gender" value="female" />Female ...
+			<input type="radio" ng-model="form.gender" value="male" />Male <br/>
+			<br/><br/>
+	</div>
 	<!--<h3><a href="/blog"></a></h3> -->
 </div>
