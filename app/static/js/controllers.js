@@ -1,23 +1,24 @@
 'use strict';
 
-/* Controllers */
+var app = angular.module('fileUpload', ['ngFileUpload']);
 
-function IndexController($scope) {
-	
-}
+	app.controller('MyCtrl', ['$scope', 'Upload', '$timeout','$log' ,'$http' , function ($scope, Upload, $timeout, $log, $http) {
+    $scope.uploadPic = function(file) {
+    file.upload = Upload.upload({
+      url: '/photos/v1.0/photos',
+      data: {file: file},
+    });
 
-function AboutController($scope) {
-	
-}
-
-function PostListController($scope, Post) {
-	var postsQuery = Post.get({}, function(posts) {
-		$scope.posts = posts.objects;
-	});
-}
-
-function PostDetailController($scope, $routeParams, Post) {
-	var postQuery = Post.get({ postId: $routeParams.postId }, function(post) {
-		$scope.post = post;
-	});
-}
+    file.upload.then(function (response) {
+      $timeout(function () {
+        file.result = response.data;
+      });
+    }, function (response) {
+      if (response.status > 0)
+        $scope.errorMsg = response.status + ': ' + response.data;
+    }, function (evt) {
+      // Math.min is to fix IE which reports 200% sometimes
+      file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+    });
+    }
+}]);

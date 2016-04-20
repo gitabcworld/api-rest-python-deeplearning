@@ -1,5 +1,29 @@
 'use strict';
 
+
+
+/*
+n app module
+ * @name app
+ *  * @type {angular.Module}
+ *   */
+var app = angular.module('app', ['flow'])
+.config(['flowFactoryProvider', function (flowFactoryProvider) {
+	  flowFactoryProvider.defaults = {
+		      target: 'test.php',
+    permanentErrors: [404, 500, 501],
+    maxChunkRetries: 1,
+    chunkRetryInterval: 5000,
+    simultaneousUploads: 4,
+    singleFile: true
+	  };
+	    flowFactoryProvider.on('catchAll', function (event) {
+		        console.log('catchAll', arguments);
+			  });
+	      // Can be used with different implementations of Flow.js
+	      //   // flowFactoryProvider.factory = fustyFlowFactory;
+	 }]);
+/*	     
 angular.module('AngularFlask', ['angularFlaskServices'])
 	.config(['$routeProvider', '$locationProvider',
 		function($routeProvider, $locationProvider) {
@@ -20,7 +44,6 @@ angular.module('AngularFlask', ['angularFlaskServices'])
 			templateUrl: '/static/partials/post-detail.html',
 			controller: PostDetailController
 		})
-		/* Create a "/blog" route that takes the user to the same place as "/post" */
 		.when('/blog', {
 			templateUrl: 'static/partials/post-list.html',
 			controller: PostListController
@@ -32,4 +55,5 @@ angular.module('AngularFlask', ['angularFlaskServices'])
 
 		$locationProvider.html5Mode(true);
 	}])
-;
+; 
+*/
