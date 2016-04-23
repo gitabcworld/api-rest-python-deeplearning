@@ -26,12 +26,17 @@ def post_photos():
 
         data = None
         if request.method == 'POST':
+		app.logger.debug("Applying post image")
 		file = request.files['file']
-		if file and not allowed_file(file.filename):
-		    return responses.new202()
+		
+		#TODO pending for testing!
+		#if file and not allowed_file(file.filename):
+		#    return responses.new202()
+		
 
 		extension = os.path.splitext(file.filename)[1]
 		f_name=str(uuid.uuid4()) + extension
+		app.logger.debug("f_name="+f_name)
 		filepath=os.path.join(app.config['UPLOAD_FOLDER'], f_name)
 		photo = Photo(f_name,filepath)
 		data ={'uuid':f_name, 'filepath': filepath}

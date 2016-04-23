@@ -8,11 +8,8 @@
 
 <script src="/static/lib/angular/angular.js"></script>
 <script src="/static/lib/angular/angular-resource.js"></script>
-
-<script src="/static/js/flow.js"></script>
 <script src="/static/js/app.js"></script>
-<script src="/static/js/controllers.js"></script>
-<script src="/static/js/services.js"></script>
+
 
 <script src="/static/lib/jquery/jquery.min.js"></script>
 <script src="/static/lib/bootstrap/bootstrap.min.js"></script>
@@ -20,68 +17,10 @@
 <!--  <script type="text/javascript" src="angular.min.js"></script>-->
 
 </head>
-<body ng-app="fileUpload" ng-controller="MyCtrl">
-<div id="header" class="header navbar navbar-static-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<!--
-				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				</button>
-				<a class="brand" href="/">AngularFlask</a> 
-				<div class="nav-collapse collapse">
-					<ul class="nav pull-right">
-						<li class="">
-							<a href="/">Home</a>
-						</li>
-					</ul>
-				</div>
-				-->
-		</div>
-	</div>
-</div>
-
-
-<div class="container page">
-	<div id="content" class="container main" ng-view>
-
-  <form name="myForm">
-    <fieldset>
-      <legend>Upload on form submit</legend>
-      Username:
-      <input type="text" name="userName" ng-model="username" size="31" required>
-      <i ng-show="myForm.userName.$error.required">*required</i>
-      <br>Photo:
-      <input type="file" ngf-select ng-model="picFile" name="file"    
-             accept="image/*" ngf-max-size="2MB" required
-             ngf-model-invalid="errorFile">
-      <i ng-show="myForm.file.$error.required">*required</i><br>
-      <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb"> <button ng-click="picFile = null" ng-show="picFile">Remove</button>
-      <br>
-      <button ng-disabled="!myForm.$valid" 
-              ng-click="uploadPic(picFile)">Submit</button>
-      <span class="progress" ng-show="picFile.progress >= 0">
-      </span>
-      <span ng-show="picFile.result">Upload Successful</span>
-    </fieldset>
-    <br>
-  </form>
-
-
-
-	</div>
-
-	<hr>
-	<footer id="footer" class="footer">
-		<!--
-			<div class="footer-left">
-				<a href="/about">About</a> |
-				<a href="/">Home</a>
-			</div>
-			-->
-		<div class="footer-right">
-			<span>&copy; 2016 BaezCorp</span>
-		</div>
-	</footer>
-</div>
+<body ng-app="app" ng-controller="myController"> 
+		<form>
+		<input type="file" file-model="myFile" />
+		<button ng-click="uploadFile()"> upload me</button>
+		</form>
 </body>
 </html/>

@@ -1,59 +1,61 @@
 'use strict';
 
+var app = angular.module('app',[]);
+
+app.config(['$interpolateProvider',
+	function($interpolateProvider) {
+		$interpolateProvider.startSymbol('[[');
+		$interpolateProvider.endSymbol(']]');
+	}]);
 
 
-/*
-n app module
- * @name app
- *  * @type {angular.Module}
- *   */
-var app = angular.module('app', ['flow'])
-.config(['flowFactoryProvider', function (flowFactoryProvider) {
-	  flowFactoryProvider.defaults = {
-		      target: 'test.php',
-    permanentErrors: [404, 500, 501],
-    maxChunkRetries: 1,
-    chunkRetryInterval: 5000,
-    simultaneousUploads: 4,
-    singleFile: true
-	  };
-	    flowFactoryProvider.on('catchAll', function (event) {
-		        console.log('catchAll', arguments);
-			  });
-	      // Can be used with different implementations of Flow.js
-	      //   // flowFactoryProvider.factory = fustyFlowFactory;
-	 }]);
-/*	     
-angular.module('AngularFlask', ['angularFlaskServices'])
-	.config(['$routeProvider', '$locationProvider',
-		function($routeProvider, $locationProvider) {
-		$routeProvider
-		.when('/', {
-			templateUrl: 'static/partials/landing.html',
-			controller: IndexController
-		})
-		.when('/about', {
-			templateUrl: 'static/partials/about.html',
-			controller: AboutController
-		})
-		.when('/post', {
-			templateUrl: 'static/partials/post-list.html',
-			controller: PostListController
-		})
-		.when('/post/:postId', {
-			templateUrl: '/static/partials/post-detail.html',
-			controller: PostDetailController
-		})
-		.when('/blog', {
-			templateUrl: 'static/partials/post-list.html',
-			controller: PostListController
-		})
-		.otherwise({
-			redirectTo: '/'
-		})
-		;
+app.directive('fileModel',['$parse', function($parse) {
+		return  {
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+				var model = $parse(attrs.fileModel)
+				var modelSetter = model.assign;
+				element.bind('change', function() {
+				scope.$apply(function () {
+					modelSetter(scope,element[0].files[0]);
+				});
+				
+			});
 
-		$locationProvider.html5Mode(true);
-	}])
-; 
-*/
+		 }
+			
+		};
+		
+		}]);
+
+
+app.service('fileUpload',['$http', 
+	function($http) {
+		this.uploadFileToUrl = function(file) {
+			var fd = new FormData();
+			fd.append('file',file);
+			$http.post('/photos/v1.0/photos',fd, {
+				transformRequest: angular.identity,
+				headers: {'Content-Type': undefined }
+			})
+			.success(function() {
+			})
+			.error(function() {
+			});
+			
+	}
+}]);
+
+
+
+app.controller('myController', ['$scope', 'fileUpload',
+		function($scope,fileUpload) {
+			$scope.uploadFile = function () {
+				var file = $scope.myFile;
+				console.log('File is ');
+				console.dir(file);
+				var uploadUrl = "/fileUpload";
+				fileUpload.uploadFileToUrl(file);
+			};
+		
+		}]);
