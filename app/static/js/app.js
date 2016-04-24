@@ -2,11 +2,14 @@
 
 var app = angular.module('app',[]);
 
+
+/*
 app.config(['$interpolateProvider',
 	function($interpolateProvider) {
 		$interpolateProvider.startSymbol('[[');
 		$interpolateProvider.endSymbol(']]');
 	}]);
+*/
 
 
 app.directive('fileModel',['$parse', function($parse) {
@@ -26,7 +29,8 @@ app.directive('fileModel',['$parse', function($parse) {
 			
 		};
 		
-		}]);
+}]);
+
 
 
 app.service('fileUpload',['$http', 
@@ -51,11 +55,18 @@ app.service('fileUpload',['$http',
 app.controller('myController', ['$scope', 'fileUpload',
 		function($scope,fileUpload) {
 			$scope.uploadFile = function () {
-				var file = $scope.myFile;
+				var file1 = $scope.myFile1;
 				console.log('File is ');
-				console.dir(file);
+				console.dir(file1);
 				var uploadUrl = "/fileUpload";
-				fileUpload.uploadFileToUrl(file);
+				fileUpload.uploadFileToUrl(file1);
+
+				var file2 = $scope.myFile2;
+				console.log('File is ');
+				console.dir(file2);
+				var uploadUrl = "/fileUpload";
+				fileUpload.uploadFileToUrl(file2);
+
 			};
 		
-		}]);
+}]);

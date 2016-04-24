@@ -14,13 +14,46 @@
 <script src="/static/lib/jquery/jquery.min.js"></script>
 <script src="/static/lib/bootstrap/bootstrap.min.js"></script>
 
+</head>
+
+	<script type="text/javascript">
+		function UploadImage1(){
+			var oFReader = new FileReader();
+			oFReader.readAsDataURL(document.getElementById("uploadImage1").files[0]);
+			oFReader.onload = function(oFREvent){
+				document.getElementById("image1").src = oFREvent.target.result;
+			};
+		};
+		
+		function UploadImage2(){
+			var oFReader = new FileReader();
+			oFReader.readAsDataURL(document.getElementById("uploadImage2").files[0]);
+			oFReader.onload = function(oFREvent){
+				document.getElementById("image2").src = oFREvent.target.result;
+			};
+		};
+	</script>
 <!--  <script type="text/javascript" src="angular.min.js"></script>-->
 
-</head>
 <body ng-app="app" ng-controller="myController"> 
+	<!--	<input type="file" ng-file-selected="onFileSelected($files)" ng-model="imageSrc" /> -->
+		<!--
+		-->
+		<!--<input type="file" ng-file-selected="onFileSelected($files)" file-model="myFile" ng-model="imageSrc" />
+	-->	
 		<form>
-		<input type="file" file-model="myFile" />
-		<button ng-click="uploadFile()"> upload me</button>
-		</form>
+		<input type="file" id="uploadImage1" onchange="UploadImage1();" file_model="myFile1">
+		<br><br>
+		<div class="image1">
+			<img id="image1">
+		</div>
+		<input type="file" id="uploadImage2" onchange="UploadImage2();" file_model="myFile2">
+		<br><br>
+		<div class="image2">
+			<img id="image2">
+		</div>
+		<button ng-click="uploadFile()"> upload me</button>	
+	</form>
+
 </body>
 </html/>

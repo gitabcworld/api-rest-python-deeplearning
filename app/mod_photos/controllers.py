@@ -9,7 +9,7 @@ from factory_responses import FactoryResponse
 import uuid
 import os
 
-ALLOWED_EXTENSIONS=set(['jpg','jpeg','bmp','png'])
+ALLOWED_EXTENSIONS=set(['jpg','jpeg','bmp','png','JPG','JPEG','BMP','PNG'])
 
 mod_photos = Blueprint('photos',__name__,url_prefix='/photos/v1.0')
 
