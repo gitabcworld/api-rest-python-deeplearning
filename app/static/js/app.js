@@ -33,8 +33,8 @@ app.directive('fileModel',['$parse', function($parse) {
 
 
 
-app.service('fileUpload',['$http', 
-	function($http) {
+app.service('fileUpload',['$http','$scope' 
+	function($http, $scope) {
 		this.uploadFileToUrl = function(file) {
 			var fd = new FormData();
 			fd.append('file',file);
@@ -42,7 +42,7 @@ app.service('fileUpload',['$http',
 				transformRequest: angular.identity,
 				headers: {'Content-Type': undefined }
 			})
-			.success(function() {
+			.success(function(responseid) {
 			})
 			.error(function() {
 			});

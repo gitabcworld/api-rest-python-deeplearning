@@ -41,7 +41,8 @@
 		-->
 		<!--<input type="file" ng-file-selected="onFileSelected($files)" file-model="myFile" ng-model="imageSrc" />
 	-->	
-		<form>
+		<form ng-model="responseid">
+		<h3>{{responseid}}</h3>
 		<input type="file" id="uploadImage1" onchange="UploadImage1();" file_model="myFile1">
 		<br><br>
 		<div class="image1">
@@ -52,6 +53,7 @@
 		<div class="image2">
 			<img id="image2">
 		</div>
+
 		<button ng-click="uploadFile()"> upload me</button>	
 	</form>
 

@@ -19,6 +19,9 @@ responses = FactoryResponse()
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
 
+def timestamp():
+    import time
+    return str(time.time()).split(".")[0]
 
 @mod_photos.route('/photos',methods=['POST'])
 def post_photos():
@@ -35,7 +38,7 @@ def post_photos():
 		
 
 		extension = os.path.splitext(file.filename)[1]
-		f_name=str(uuid.uuid4()) + extension
+		f_name=timestamp()+str(uuid.uuid4()) + extension
 		app.logger.debug("f_name="+f_name)
 		filepath=os.path.join(app.config['UPLOAD_FOLDER'], f_name)
 		photo = Photo(f_name,filepath)
