@@ -33,7 +33,7 @@ app.directive('fileModel',['$parse', function($parse) {
 
 
 
-app.service('fileUpload',['$http','$scope' 
+app.service('fileUpload',['$http','$scope', 
 	function($http, $scope) {
 		this.uploadFileToUrl = function(file) {
 			var fd = new FormData();
@@ -60,13 +60,6 @@ app.controller('myController', ['$scope', 'fileUpload',
 				console.dir(file1);
 				var uploadUrl = "/fileUpload";
 				fileUpload.uploadFileToUrl(file1);
-
-				var file2 = $scope.myFile2;
-				console.log('File is ');
-				console.dir(file2);
-				var uploadUrl = "/fileUpload";
-				fileUpload.uploadFileToUrl(file2);
-
 			};
 		
 }]);

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <meta charset="utf-8">
-<title>Give me an avatar</title>
+<title>Give me a photo</title>
 
 <link rel="stylesheet" href="/static/css/bootstrap.css">
 <link rel="stylesheet" href="/static/css/main.css">
@@ -25,15 +25,10 @@
 			};
 		};
 		
-		function UploadImage2(){
-			var oFReader = new FileReader();
-			oFReader.readAsDataURL(document.getElementById("uploadImage2").files[0]);
-			oFReader.onload = function(oFREvent){
-				document.getElementById("image2").src = oFREvent.target.result;
-			};
-		};
 	</script>
-<!--  <script type="text/javascript" src="angular.min.js"></script>-->
+<!--  
+	//TODO remove this web it is not working
+<script type="text/javascript" src="angular.min.js"></script>-->
 
 <body ng-app="app" ng-controller="myController"> 
 	<!--	<input type="file" ng-file-selected="onFileSelected($files)" ng-model="imageSrc" /> -->
@@ -47,11 +42,6 @@
 		<br><br>
 		<div class="image1">
 			<img id="image1">
-		</div>
-		<input type="file" id="uploadImage2" onchange="UploadImage2();" file_model="myFile2">
-		<br><br>
-		<div class="image2">
-			<img id="image2">
 		</div>
 
 		<button ng-click="uploadFile()"> upload me</button>	

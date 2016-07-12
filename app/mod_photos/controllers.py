@@ -5,6 +5,7 @@ from app.data import db
 from app.mod_photos.models import Photo
 
 from factory_responses import FactoryResponse
+from subprocess import check_output
 
 import uuid
 import os
@@ -23,6 +24,12 @@ def timestamp():
     import time
     return str(time.time()).split(".")[0]
 
+def execute_tiny_cnn(filepath):
+	#TODO add code tiny cpp example
+	output=check_output(["echo", "caca1:resultado1\ncaca2:resultado2\ncaca3:resultado3\ncaca4:resultado4\ncaca5:resultado5"])
+	values = output.split("\n")[:-1]
+	return values
+
 @mod_photos.route('/photos',methods=['POST'])
 def post_photos():
 	app.logger.debug("Applying post photo...")
@@ -38,14 +45,19 @@ def post_photos():
 		
 
 		extension = os.path.splitext(file.filename)[1]
-		f_name=timestamp()+str(uuid.uuid4()) + extension
+		identifier=timestamp()+str(uuid.uuid4())
+		f_name=identifier + extension
 		app.logger.debug("f_name="+f_name)
+		app.logger.debug("identifier="+identifier)
 		filepath=os.path.join(app.config['UPLOAD_FOLDER'], f_name)
-		photo = Photo(f_name,filepath)
-		data ={'uuid':f_name, 'filepath': filepath}
-		Photo.create(**data)
+		#First result 
+		values = execute_tiny_cnn(filepath)
+		result = '\n'.join(values)
+
+		data ={'uuid':identifier, 'filepath': filepath, 'analysed':True, 'info':str(values)}
+		new_photo = Photo.create(**data)
 		file.save(filepath)
-                data = {'filename':f_name}
+		data = {'filename':f_name, 'info':str(values),'id': new_photo.id}
         #TODO refactor to set up necessary methods to create responses
         #TODO is it necessary to return 200 command
 	resp = None
