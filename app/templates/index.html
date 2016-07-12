@@ -30,13 +30,13 @@
 	//TODO remove this web it is not working
 <script type="text/javascript" src="angular.min.js"></script>-->
 
-<body ng-app="app" ng-controller="myController"> 
+<body ng-app="app" ng-controller="myController">
+	<form>
 	<!--	<input type="file" ng-file-selected="onFileSelected($files)" ng-model="imageSrc" /> -->
 		<!--
 		-->
 		<!--<input type="file" ng-file-selected="onFileSelected($files)" file-model="myFile" ng-model="imageSrc" />
 	-->	
-		<form ng-model="responseid">
 		<h3>{{responseid}}</h3>
 		<input type="file" id="uploadImage1" onchange="UploadImage1();" file_model="myFile1">
 		<br><br>
@@ -46,6 +46,6 @@
 
 		<button ng-click="uploadFile()"> upload me</button>	
 	</form>
-
+	<div id="result"></div>
 </body>
 </html/>

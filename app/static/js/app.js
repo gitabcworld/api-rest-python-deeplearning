@@ -3,13 +3,13 @@
 var app = angular.module('app',[]);
 
 
-/*
+
+
 app.config(['$interpolateProvider',
 	function($interpolateProvider) {
 		$interpolateProvider.startSymbol('[[');
 		$interpolateProvider.endSymbol(']]');
 	}]);
-*/
 
 
 app.directive('fileModel',['$parse', function($parse) {
@@ -32,9 +32,23 @@ app.directive('fileModel',['$parse', function($parse) {
 }]);
 
 
+function logEvent(str) {
+	console.log(str);
+	var d = document.createElement('div');
+	d.innerHTML = str;
+	document.getElementById('result').appendChild(d);
+}
+function objToString(obj) {
+	var str = '';
+	for (var p in obj) {
+		if (obj.hasOwnProperty(p)) {
+			str+=p+'::'+obj[p]+'\n';
+		}
+	}
+}
 
-app.service('fileUpload',['$http','$scope', 
-	function($http, $scope) {
+app.service('fileUpload',['$http', 
+	function($http) {
 		this.uploadFileToUrl = function(file) {
 			var fd = new FormData();
 			fd.append('file',file);
@@ -43,11 +57,12 @@ app.service('fileUpload',['$http','$scope',
 				headers: {'Content-Type': undefined }
 			})
 			.success(function(responseid) {
+				logEvent(JSON.stringify(responseid));
 			})
 			.error(function() {
 			});
 			
-	}
+	};
 }]);
 
 
