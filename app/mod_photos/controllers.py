@@ -27,7 +27,8 @@ def timestamp():
 def execute_tiny_cnn(filepath):
 	#TODO add code tiny cpp examplei
         # ~/caffenet/deploy.prototxt ~/caffenet/bvlc_alexnet.caffemodel ~/caffenet/imagenet_mean.binaryproto ~/caffenet/synset_words.txt ~/caffenet/cat.jpg 
-	output=check_output(["example_caffe_converter","deploy.prototxt bvlc_alexnet.caffemodel imagenet_mean.binaryproto synset_words.txt "+str(filepath)])
+        app.logger.debug("filepath="+str(filepath))
+	output=check_output(["example_caffe_converter","deploy.prototxt","bvlc_alexnet.caffemodel","imagenet_mean.binaryproto","synset_words.txt",str(filepath)])
         #output=check_output(["echo", "caca1:resultado1\ncaca2:resultado2\ncaca3:resultado3\ncaca4:resultado4\ncaca5:resultado5"])
         app.logger.debug("output="+str(output))
         values = output.split("\n")[:-1][-5:]
@@ -55,12 +56,15 @@ def post_photos():
 		app.logger.debug("identifier="+identifier)
 		filepath=os.path.join(app.config['UPLOAD_FOLDER'], f_name)
 		#First result 
+
+		file.save(filepath)
+		
 		values = execute_tiny_cnn(filepath)
 		result = '\n'.join(values)
-
-		data ={'uuid':identifier, 'filepath': filepath, 'analysed':True, 'info':str(values)}
-		new_photo = Photo.create(**data)
-		file.save(filepath)
+		
+		data_to_object ={'uuid':identifier, 'filepath': filepath, 'analysed':True, 'info':str(values)}
+		new_photo = Photo.create(**data_to_object)
+		
 		data = {'filename':f_name, 'info':str(values),'id': new_photo.id}
         #TODO refactor to set up necessary methods to create responses
         #TODO is it necessary to return 200 command
