@@ -25,9 +25,13 @@ def timestamp():
     return str(time.time()).split(".")[0]
 
 def execute_tiny_cnn(filepath):
-	#TODO add code tiny cpp example
-	output=check_output(["echo", "caca1:resultado1\ncaca2:resultado2\ncaca3:resultado3\ncaca4:resultado4\ncaca5:resultado5"])
-	values = output.split("\n")[:-1]
+	#TODO add code tiny cpp examplei
+        # ~/caffenet/deploy.prototxt ~/caffenet/bvlc_alexnet.caffemodel ~/caffenet/imagenet_mean.binaryproto ~/caffenet/synset_words.txt ~/caffenet/cat.jpg 
+	output=check_output(["example_caffe_converter","deploy.prototxt bvlc_alexnet.caffemodel imagenet_mean.binaryproto synset_words.txt "+str(filepath)])
+        #output=check_output(["echo", "caca1:resultado1\ncaca2:resultado2\ncaca3:resultado3\ncaca4:resultado4\ncaca5:resultado5"])
+        app.logger.debug("output="+str(output))
+        values = output.split("\n")[:-1][-5:]
+        app.logger.debug("values="+str(values))
 	return values
 
 @mod_photos.route('/photos',methods=['POST'])
