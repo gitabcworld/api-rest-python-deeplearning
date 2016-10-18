@@ -6,7 +6,7 @@ from app.data import db
 celery = Celery('tasks')
 celery.config_from_object('celeryconfig')
 #TODO temporal task test
-#db.create_all()
+db.create_all()
 
 def execute_analysis(photo):
 	data ={'info':'result!','analysed':True}
