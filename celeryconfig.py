@@ -4,8 +4,8 @@ from datetime import timedelta
 CELERY_BROKER_URL="amqp://guest@localhost//"
 CELERYBEAT_SCHEDULE = {
 	'every-day': {
-		'task': 'tasks.newwinner',
-		'schedule': timedelta(days=1),
+		'task': 'tasks.analyse_document',
+		'schedule': timedelta(seconds=5),
 	}
 }
 CELERY_TIMEZONE='UTC'
