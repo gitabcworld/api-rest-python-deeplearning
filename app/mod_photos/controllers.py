@@ -9,6 +9,7 @@ from subprocess import check_output
 
 import uuid
 import os
+import base64
 
 ALLOWED_EXTENSIONS=set(['jpg','jpeg','bmp','png','JPG','JPEG','BMP','PNG'])
 
@@ -20,15 +21,15 @@ def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
 
 def timestamp():
-    import time
-    return str(time.time()).split(".")[0]
+	import time
+	return str(time.time()).split(".")[0]
 
 @mod_photos.route('/photos',methods=['POST'])
 def post_photos():
 	app.logger.debug("Applying post photo...")
 
-        data = None
-        if request.method == 'POST':
+	data = None
+	if request.method == 'POST':
 		app.logger.debug("Applying post image")
 		file = request.files['file']
 
@@ -47,7 +48,7 @@ def post_photos():
 		data_to_object ={'uuid':identifier, 'filepath': filepath, 'analysed':False, 'info':str("empty")}
 		new_photo = Photo.create(**data_to_object)
 
-		data = {'filename':f_name, 'id': new_photo.id}
+		data = {'filename':f_name, 'id2': new_photo.id}
         #TODO refactor to set up necessary methods to create responses
         #TODO is it necessary to return 200 command
 	resp = None
@@ -55,7 +56,49 @@ def post_photos():
         	resp = responses.new200()
 	else:
 		resp = responses.new201(data)
-        return resp
+	return resp
+
+@mod_photos.route('/photoStr',methods=['POST'])
+def post_photosStr():
+	app.logger.debug("Applying post photo...")
+
+	data = None
+	if request.method == 'POST':
+
+		content = request.get_json()
+		if content is not None:
+			filename = content['filename']
+			extension = os.path.splitext(filename)[1]
+
+			imageEncoded = content['image']
+			image = base64.b64decode(imageEncoded)
+			#image = image.decode('base64')
+
+			app.logger.debug(data)
+			identifier=timestamp()+str(uuid.uuid4())
+
+			f_name=identifier + extension
+			app.logger.debug("f_name="+f_name)
+			app.logger.debug("identifier="+identifier)
+			filepath=os.path.join(app.config['UPLOAD_FOLDER'], f_name)
+			# or, more concisely using with statement
+			with open(filepath, "wb") as fh:
+	    			fh.write(image)
+			#First result
+
+			data_to_object ={'uuid':identifier, 'filepath': filepath, 'analysed':False, 'info':str("empty")}
+			new_photo = Photo.create(**data_to_object)
+
+			data = {'filename':f_name, 'id2': new_photo.id }
+        	#TODO refactor to set up necessary methods to create responses
+        	#TODO is it necessary to return 200 command
+	resp = None
+	if data == None:
+        	resp = responses.new200()
+	else:
+			resp = responses.new201(data)
+	return resp
+
 
 @mod_photos.route('/photos/<int:id>',methods=['GET'])
 def get_photos_one(id):
