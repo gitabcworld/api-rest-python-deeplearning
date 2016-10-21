@@ -48,7 +48,7 @@ def post_photos():
 		data_to_object ={'uuid':identifier, 'filepath': filepath, 'analysed':False, 'info':str("empty")}
 		new_photo = Photo.create(**data_to_object)
 
-		data = {'filename':f_name, 'id2': new_photo.id}
+		data = {'filename':new_photo.filepath, 'uuid': new_photo.uuid}
         #TODO refactor to set up necessary methods to create responses
         #TODO is it necessary to return 200 command
 	resp = None
@@ -89,21 +89,22 @@ def post_photosStr():
 			data_to_object ={'uuid':identifier, 'filepath': filepath, 'analysed':False, 'info':str("empty")}
 			new_photo = Photo.create(**data_to_object)
 
-			data = {'filename':f_name, 'id2': new_photo.id }
+			data = {'uuid': new_photo.uuid }
         	#TODO refactor to set up necessary methods to create responses
         	#TODO is it necessary to return 200 command
 	resp = None
 	if data == None:
         	resp = responses.new200()
 	else:
-			resp = responses.new201(data)
+		resp = responses.new201(data)
 	return resp
 
 
-@mod_photos.route('/photos/<int:id>',methods=['GET'])
-def get_photos_one(id):
-    photo =Photo.query.get_or_404(id)
-    return jsonify(photo.serialize_all())
+@mod_photos.route('/photos/<string:uuid>',methods=['GET'])
+def get_photos_one(uuid):
+	#photo =Photo.query.get_or_404(id)
+	photo = Photo.query.filter_by(uuid=uuid).first_or_404()
+	return jsonify(photo.serialize_all())
 
 @mod_photos.route('/photos',methods=['GET'])
 def get_photos():

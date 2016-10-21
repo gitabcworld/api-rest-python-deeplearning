@@ -13,7 +13,7 @@ class Photo(Base,CRUDMixin):
     filepath = db.Column(db.String(500), nullable=False)
     analysed = db.Column(db.Boolean,default=False)
     info = db.Column(db.String(1000),nullable=False)
-   
+
 
     def __init__(self,uuid,filepath,analysed=False,info=""):
 	self.uuid = uuid
@@ -22,7 +22,7 @@ class Photo(Base,CRUDMixin):
         self.info=info
 
     def get_id(self):
-	return self.id
+        return self.id
 
     def serialize(self):
 	return {'uuid':self.uuid}
@@ -30,5 +30,3 @@ class Photo(Base,CRUDMixin):
         return {'uuid':self.uuid, 'filepath': self.filepath, 'analysed': self.analysed, 'info': self.info}
     def __repr__(self):
 	return '<photo uuid=%r filepath=%r>' % (self.uuid,self.filepath)
-        
-
