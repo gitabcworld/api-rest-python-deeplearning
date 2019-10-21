@@ -22,7 +22,7 @@ Twisted-Core==13.2.0
 Twisted-Names==13.2.0
 Twisted-Web==13.2.0
 WTForms==2.0.2
-Werkzeug==0.10.4
+Werkzeug==0.15.3
 amqp==1.4.7
 anyjson==0.3.3
 ## FIXME: could not find svn URL in dependency_links for this package:
