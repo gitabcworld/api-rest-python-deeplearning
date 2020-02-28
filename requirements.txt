@@ -100,7 +100,7 @@ six==1.10.0
 system-service==0.1.6
 tzlocal==1.2
 uTidylib==0.2
-urllib3==1.7.1
+urllib3==1.24.2
 vboxapi==1.0
 vim-debug==1.5.4
 virtualenv==1.11.4
