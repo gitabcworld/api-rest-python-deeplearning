@@ -54,7 +54,7 @@ funcsigs==1.0.0
 futures==3.0.3
 gunicorn==19.5.0
 gyp==0.1
-html5lib==0.999
+html5lib==0.99999999
 httplib2==0.8
 ipaddress==1.0.16
 itsdangerous==0.24
